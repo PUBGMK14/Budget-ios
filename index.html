@@ -1,56 +1,45 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>모배 UC 최적 조합 계산기 (KRW 전용)</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <main class="container">
-    <header>
-      <h1>모배 UC 최적 조합 계산기</h1>
-      <p class="sub">입력한 예산(₩)으로 최대 UC를 주는 조합을 계산합니다.</p>
-    </header>
+<section class="controls card">
+  <div class="row">
+    <label for="budget">예산 (₩)</label>
+    <input
+      id="budget"
+      type="number"
+      step="1"
+      min="0"
+      inputmode="numeric"
+      pattern="[0-9]*"
+      placeholder="예: 50000"
+    />
+  </div>
 
-    <section class="controls card">
-      <div class="row">
-        <label>예산 (₩)</label>
-        <input id="budget" type="number" step="1" placeholder="예: 50000" />
-      </div>
+  <div class="row">
+    <button id="calcBtn" type="button">최적 조합 계산</button>
+  </div>
+</section>
 
-      <div class="row">
-        <button id="calcBtn">최적 조합 계산</button>
-      </div>
-    </section>
-
-    <section class="result card">
-      <h2>결과</h2>
-      <div id="summary" class="summary"></div>
-      <div class="table-wrap">
-        <table id="resultTable" class="hidden">
-          <thead>
-            <tr>
-              <th>패키지</th>
-              <th>개수</th>
-              <th>획득 UC</th>
-              <th>지출</th>
-            </tr>
-          </thead>
-          <tbody id="resultBody"></tbody>
-          <tfoot>
-            <tr>
-              <th>합계</th>
-              <th id="resCount">-</th>
-              <th id="resUC">-</th>
-              <th id="resCost">-</th>
-            </tr>
-          </tfoot>
-        </table>
-      </div>
-    </section>
-  </main>
-
-  <script src="script.js"></script>
-</body>
-</html>
+<section class="result card">
+  <h2>결과</h2>
+  <div id="summary" class="summary" aria-live="polite"></div>
+  <div class="table-wrap">
+    <table id="resultTable" class="hidden">
+      <caption>선택한 패키지 조합 결과</caption>
+      <thead>
+        <tr>
+          <th>패키지</th>
+          <th>개수</th>
+          <th>획득 UC</th>
+          <th>지출</th>
+        </tr>
+      </thead>
+      <tbody id="resultBody"></tbody>
+      <tfoot>
+        <tr>
+          <th>합계</th>
+          <th id="resCount">-</th>
+          <th id="resUC">-</th>
+          <th id="resCost">-</th>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</section>
