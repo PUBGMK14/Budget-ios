@@ -55,10 +55,24 @@ button{
   cursor:pointer;transition:filter .15s ease;
 }
 button:hover{filter:brightness(1.05)}
+button:active{transform:translateY(1px);filter:brightness(0.98)}
+button:disabled{opacity:.7;cursor:default}
+
+button:focus-visible,
+input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+input[type="number"]{-moz-appearance:textfield}
 
 .table-wrap{overflow:auto;border:1px solid var(--border);border-radius:12px;}
 table{width:100%;border-collapse:collapse;min-width:480px;}
+caption{caption-side:top;padding:8px 10px;color:var(--muted);text-align:left;}
 th,td{padding:12px 10px;border-bottom:1px solid var(--border);text-align:left;}
-thead th{position:sticky;top:0;background:#0f1620;}
+thead th{position:sticky;top:0;background:#0f1620;box-shadow:0 1px 0 var(--border);}
 tbody tr:hover{background:#0f1620}
 .hidden{display:none}
+
+@media (prefers-reduced-motion: reduce){
+  *{transition:none !important;animation:none !important}
+}
