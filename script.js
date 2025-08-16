@@ -69,7 +69,7 @@ function compute() {
           const candUC = dpUC[c - u.cost] + totalUCOf(u);
           const candCost = dpCost[c - u.cost] + u.cost;
           // 동률 기준: 같은 UC면 지출이 더 큰 쪽(잔액 최소화) 선택
-          if (candUC > dpUC[c] || (candUC === dpUC[c] && candCost > dpCost[c])) {
+          if (candUC > dpUC[c] || (candUC === dpUC[c] && candCost < dpCost[c])) {
             dpUC[c] = candUC;
             dpCost[c] = candCost;
             dpTake[c] = i;
@@ -81,7 +81,7 @@ function compute() {
     // 최적 지점 선택 (동일 UC면 지출 큰 쪽)
     let bestC = 0;
     for (let c = 1; c <= budgetScaled; c++) {
-      if (dpUC[c] > dpUC[bestC] || (dpUC[c] === dpUC[bestC] && dpCost[c] > dpCost[bestC])) {
+      if (dpUC[c] > dpUC[bestC] || (dpUC[c] === dpUC[bestC] && dpCost[c] < dpCost[bestC])) {
         bestC = c;
       }
     }
