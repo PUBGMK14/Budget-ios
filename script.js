@@ -9,13 +9,7 @@ const DEFAULT_PACKAGES = [
 
 const els = {
   budget: document.getElementById("budget"),
-  currency: document.getElementById("currency"),
-  tax: document.getElementById("tax"),
-  precision: document.getElementById("precision"),
   calcBtn: document.getElementById("calcBtn"),
-  resetBtn: document.getElementById("resetBtn"),
-  addRowBtn: document.getElementById("addRowBtn"),
-  pkgBody: document.getElementById("pkgBody"),
   resultTable: document.getElementById("resultTable"),
   resultBody: document.getElementById("resultBody"),
   resCount: document.getElementById("resCount"),
@@ -24,10 +18,8 @@ const els = {
   summary: document.getElementById("summary"),
 };
 
-let packages = [];
-
-function fmtMoney(n, cur) {
-  return `${cur} ${Number(n.toFixed(0)).toLocaleString()}`;
+function fmtMoney(n) {
+  return `₩ ${Number(n.toFixed(0)).toLocaleString()}`;
 }
 function fmtNumber(n) {
   return Number(n).toLocaleString();
@@ -36,62 +28,20 @@ function totalUCOf(pkg) {
   return pkg.baseUC + pkg.bonusUC;
 }
 
-function rebuildPkgTable() {
-  els.pkgBody.innerHTML = "";
-  packages.forEach((p, i) => {
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td><input value="${p.name}"></td>
-      <td><input type="number" step="1" min="0" value="${p.baseUC}"></td>
-      <td><input type="number" step="1" min="0" value="${p.bonusUC}"></td>
-      <td class="uc-total">${totalUCOf(p)}</td>
-      <td><input type="number" step="1" min="0" value="${p.price}"></td>
-      <td><button class="del">삭제</button></td>
-    `;
-    const inputs = tr.querySelectorAll("input");
-    inputs[0].addEventListener("input", e => packages[i].name = e.target.value);
-    inputs[1].addEventListener("input", e => {
-      packages[i].baseUC = parseInt(e.target.value) || 0;
-      tr.querySelector(".uc-total").textContent = totalUCOf(packages[i]);
-    });
-    inputs[2].addEventListener("input", e => {
-      packages[i].bonusUC = parseInt(e.target.value) || 0;
-      tr.querySelector(".uc-total").textContent = totalUCOf(packages[i]);
-    });
-    inputs[3].addEventListener("input", e => packages[i].price = parseInt(e.target.value) || 0);
-    tr.querySelector(".del").addEventListener("click", () => {
-      packages.splice(i, 1);
-      rebuildPkgTable();
-    });
-    els.pkgBody.appendChild(tr);
-  });
-}
-
-function restoreDefaults() {
-  packages = DEFAULT_PACKAGES.map(p => ({...p}));
-  rebuildPkgTable();
-}
-
-function addRow() {
-  packages.push({ name: "새 패키지", baseUC: 0, bonusUC: 0, price: 0 });
-  rebuildPkgTable();
-}
-
 function compute() {
   const budget = parseInt(els.budget.value) || 0;
   if (budget <= 0) return alert("예산을 입력하세요.");
-  const currency = els.currency.value || "₩";
-  const usable = packages.filter(p => p.price > 0 && totalUCOf(p) > 0);
 
-  // DP 준비
-  const scale = els.precision.value === "auto" ? 1 : parseInt(els.precision.value);
-  const budgetScaled = Math.floor(budget / scale);
+  const usable = DEFAULT_PACKAGES.filter(p => p.price > 0 && totalUCOf(p) > 0);
+
+  // DP (항상 1원 단위 정밀도)
+  const budgetScaled = budget;
   const dpUC = Array(budgetScaled+1).fill(-1);
   const dpTake = Array(budgetScaled+1).fill(-1);
   const dpCost = Array(budgetScaled+1).fill(0);
   dpUC[0] = 0;
 
-  usable.forEach(u => u.cost = Math.round(u.price / scale));
+  usable.forEach(u => u.cost = u.price);
 
   for (let c = 1; c <= budgetScaled; c++) {
     usable.forEach((u, i) => {
@@ -135,19 +85,15 @@ function compute() {
       <td>${usable[i].name}</td>
       <td>${fmtNumber(cnt)}</td>
       <td>${fmtNumber(itemUC)} UC</td>
-      <td>${fmtMoney(itemCost, currency)}</td>
+      <td>${fmtMoney(itemCost)}</td>
     </tr>`;
   }).join("");
 
   els.resCount.textContent = fmtNumber(sumCount);
   els.resUC.textContent = `${fmtNumber(sumUC)} UC`;
-  els.resCost.textContent = fmtMoney(sumCost, currency);
-  els.summary.innerHTML = `총 ${fmtNumber(sumUC)} UC, 지출 ${fmtMoney(sumCost, currency)}, 잔액 ${fmtMoney(budget - sumCost, currency)}`;
+  els.resCost.textContent = fmtMoney(sumCost);
+  els.summary.innerHTML = `총 ${fmtNumber(sumUC)} UC, 지출 ${fmtMoney(sumCost)}, 잔액 ${fmtMoney(budget - sumCost)}`;
   els.resultTable.classList.remove("hidden");
 }
 
 els.calcBtn.addEventListener("click", compute);
-els.resetBtn.addEventListener("click", restoreDefaults);
-els.addRowBtn.addEventListener("click", addRow);
-
-restoreDefaults();
