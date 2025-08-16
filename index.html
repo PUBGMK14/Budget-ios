@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>모배 UC 최적 조합 계산기 (한국 버전)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="container">
+    <header>
+      <h1>모배 UC 최적 조합 계산기</h1>
+      <p class="sub">입력한 예산으로 최대 UC를 주는 패키지 조합을 계산합니다.</p>
+    </header>
+
+    <section class="controls card">
+      <div class="row">
+        <label>예산</label>
+        <div class="input-with-unit">
+          <input id="budget" type="number" step="1" placeholder="예: 50000" />
+          <input id="currency" type="text" value="₩" maxlength="3" title="통화 기호" />
+        </div>
+      </div>
+
+      <div class="row">
+        <label>부가세/수수료(%)</label>
+        <input id="tax" type="number" step="0.1" value="0" />
+      </div>
+
+      <div class="row">
+        <label>계산 정밀도(스텝)</label>
+        <select id="precision">
+          <option value="auto" selected>자동</option>
+          <option value="1">1원 단위</option>
+          <option value="10">10원 단위(고액 예산 가속)</option>
+        </select>
+      </div>
+
+      <div class="row">
+        <button id="calcBtn">최적 조합 계산</button>
+        <button id="resetBtn" class="ghost">기본 패키지 복원</button>
+      </div>
+    </section>
+
+    <section class="packages card">
+      <h2>패키지 목록</h2>
+      <div class="table-wrap">
+        <table id="pkgTable">
+          <thead>
+            <tr>
+              <th>이름</th>
+              <th>기본 UC</th>
+              <th>보너스 UC</th>
+              <th>총 UC</th>
+              <th>가격(₩)</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="pkgBody"></tbody>
+        </table>
+      </div>
+      <button id="addRowBtn" class="ghost">행 추가</button>
+    </section>
+
+    <section class="result card">
+      <h2>결과</h2>
+      <div id="summary" class="summary"></div>
+      <div class="table-wrap">
+        <table id="resultTable" class="hidden">
+          <thead>
+            <tr>
+              <th>패키지</th>
+              <th>개수</th>
+              <th>획득 UC</th>
+              <th>지출</th>
+            </tr>
+          </thead>
+          <tbody id="resultBody"></tbody>
+          <tfoot>
+            <tr>
+              <th>합계</th>
+              <th id="resCount">-</th>
+              <th id="resUC">-</th>
+              <th id="resCost">-</th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
+[index.html](https://github.com/user-attachments/files/21806942/index.html)
