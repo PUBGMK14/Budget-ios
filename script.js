@@ -1,10 +1,10 @@
 const DEFAULT_PACKAGES = [
   { name: "60 UC", baseUC: 60, bonusUC: 0, price: 1100 },
-  { name: "180 + 10 UC", baseUC: 180, bonusUC: 10, price: 3300 },
-  { name: "600 + 60 UC", baseUC: 600, bonusUC: 60, price: 11000 },
-  { name: "1500 + 300 UC", baseUC: 1500, bonusUC: 300, price: 27500 },
-  { name: "2950 + 900 UC", baseUC: 2950, bonusUC: 900, price: 55000 },
-  { name: "5900 + 2200 UC", baseUC: 5900, bonusUC: 2200, price: 110000 },
+  { name: "180 + 10 UC", baseUC: 180, bonusUC: 10, price: 4400 },
+  { name: "600 + 60 UC", baseUC: 600, bonusUC: 60, price: 14000 },
+  { name: "1500 + 300 UC", baseUC: 1500, bonusUC: 300, price: 33000 },
+  { name: "2950 + 900 UC", baseUC: 2950, bonusUC: 900, price: 66000 },
+  { name: "5900 + 2200 UC", baseUC: 5900, bonusUC: 2200, price: 149000 },
 ];
 
 const els = {
